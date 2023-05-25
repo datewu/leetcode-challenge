@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tobechanged
+# namespace: wu
+  labels:
+    app: tobechanged
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tobechanged
+  template:
+    metadata:
+      labels:
+        app: tobechanged
+    spec:
+      #imagePullSecrets:
+      #- name: ghcr
+      containers:
+      - name: tobechanged
+        image: ghcr.io/datewu/tobechanged:v0.0.1
+        resources:
+          limits:
+            cpu: 150m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        ports:
+        - containerPort: 8080
+          name: http-web-svc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tobechanged-abc
+# namespace: wu
+spec:
+  selector:
+    app: tobechanged
+  ports:
+  - name: name-of-service-port
+    protocol: TCP
+    port: 80
+    targetPort: http-web-svc
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+#   tobechanged.ingress.kubernetes.io/backend-protocol: HTTPS
+  name: tobechanged
+# namespace: wu
+spec:
+  ingressClassName: public
+  rules:
+  - host: tobechanged.deoops.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: tobechanged-abc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - tobechanged.deoops.com
+    secretName: tobechanged.deoops.com.tls
