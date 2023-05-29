@@ -44,9 +44,8 @@ func (t *countBTree) find(n int) bool {
 }
 
 // Given two strings s and t, return true if t is an anagram of s, and false otherwise.
-
 // An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
-func validAnagram(s string, t string) bool {
+func validAnagramWithTree(s string, t string) bool {
 	if len(s) != len(t) {
 		return false
 	}
@@ -60,4 +59,11 @@ func validAnagram(s string, t string) bool {
 		}
 	}
 	return true
+}
+
+func validAnagramWithKey(s string, t string) bool {
+	// if len(s) != len(t) {
+	// 	return false
+	// }
+	return getAnagramstKey(s) == getAnagramstKey(t)
 }

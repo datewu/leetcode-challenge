@@ -24,13 +24,19 @@ func TestValidAnagram(t *testing.T) {
 	}
 
 	for _, v := range sucesses {
-		if !validAnagram(v[0], v[1]) {
-			t.Errorf("%v Expected true, got false", v)
+		if !validAnagramWithTree(v[0], v[1]) {
+			t.Errorf("Tree: %v Expected true, got false", v)
+		}
+		if !validAnagramWithKey(v[0], v[1]) {
+			t.Errorf("Key: %v Expected true, got false", v)
 		}
 	}
 	for _, v := range failds {
-		if validAnagram(v[0], v[1]) {
-			t.Errorf("%v Expected false, got true", v)
+		if validAnagramWithTree(v[0], v[1]) {
+			t.Errorf("Tree: %v Expected false, got true", v)
+		}
+		if validAnagramWithKey(v[0], v[1]) {
+			t.Errorf("Key: %v Expected true, got false", v)
 		}
 	}
 }
