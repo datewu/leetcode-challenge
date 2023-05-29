@@ -5,7 +5,7 @@ package main
 // strs[i] consists of lowercase English letters.
 func groupAnagrams(strs []string) [][]string {
 	var res [][]string
-	m := make(map[int][]string)
+	m := make(map[[26]int][]string)
 	for _, str := range strs {
 		key := getAnagramstKey(str)
 		m[key] = append(m[key], str)
@@ -16,20 +16,11 @@ func groupAnagrams(strs []string) [][]string {
 	return res
 }
 
-// good enough, to be proved
-func getAnagramstKey(str string) int {
-	m := make(map[rune]int)
+func getAnagramstKey(str string) [26]int {
+	m := [26]int{}
+
 	for _, r := range str {
-		m[r]++
+		m[r%26]++
 	}
-	var key int
-	// [a, b]
-	for k, v := range m {
-		key += v + int(k) + 1
-	}
-	// [a-c, a+c] => c = a-b => [b, a]
-	for k, v := range m {
-		key *= v * (int(k) + 1)
-	}
-	return key + 100_000*len(str) + 1000_000*len(m)
+	return m
 }

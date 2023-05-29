@@ -8,6 +8,7 @@ func TestValidAnagram(t *testing.T) {
 		{"iam your father!", "father iam your!"},
 		{"iam your father!", "father your ami!"},
 		{"我是你爸爸！👨", "👨我是你！爸爸"},
+		{"a", "a"},
 		{"ab", "ba"},
 		{"ab", "ab"},
 	}
@@ -17,6 +18,7 @@ func TestValidAnagram(t *testing.T) {
 		{"rat", "car"},
 		{"rat", "carrr"},
 		{"a", "aa"},
+		{"a", "A"}, // case matters
 		{"iam your father!", "father iam you !"},
 		{"ab", "bb"},
 		{"ab", "a"},
